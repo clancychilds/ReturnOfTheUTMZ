@@ -109,4 +109,63 @@ describe('UTMZCookie', function(){
             expect(cookieString).to.equal("__utmz=0.1234567890.1.1.utmcsr=bing|utmccn=test_campaign|utmcmd=cpc|utmctr=test_term; expires=Mon, 09 Feb 2015 16:04:12 GMT");
         });
     });
+    
+    describe('#equivalent()', function(){
+        it("should return true if the cookies are equivalent", function() {
+            var cookie1 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpc',
+                                         term: 'test_term',
+                                         campaign: 'test_campaign'});
+            var cookie2 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpc',
+                                         term: 'test_term',
+                                         campaign: 'test_campaign'});
+            expect(cookie1.equivalent(cookie2)).to.equal(true);
+        });
+        
+        it("should return true if equivalent, but missing fields", function() {
+            var cookie1 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpc',
+                                         campaign: 'test_campaign'});
+            var cookie2 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpc',
+                                         campaign: 'test_campaign'});
+            expect(cookie1.equivalent(cookie2)).to.equal(true);
+        });
+        
+        it("should return false if the cookies are NOT equivalent", function() {
+            var cookie1 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpc',
+                                         term: 'test_term',
+                                         campaign: 'test_campaign'});
+            var cookie2 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpm',
+                                         term: 'test_term2',
+                                         campaign: 'test_campaign3'});
+            expect(cookie1.equivalent(cookie2)).to.equal(false);
+        });
+        
+        it("should return false if NOT equivalent and missing fields", function() {
+            var cookie1 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpc',
+                                         campaign: 'test_campaign'});
+            var cookie2 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpm',
+                                         campaign: 'test_campaign3'});
+            expect(cookie1.equivalent(cookie2)).to.equal(false);
+        });
+    });
+    
+    describe('#loadFromReferrerString()', function(){
+        it("should parse 'http://www.timminspress.com/2015/03/19/st-paddys-day-drug-search-in-timmins'", function(){
+            var cookie = new UTMZCookie({});
+            var referrer_string = 'http://www.timminspress.com/2015/03/19/st-paddys-day-drug-search-in-timmins';
+            cookie.loadFromReferrerString(referrer_string);
+            expect(cookie.source).to.equal('timminspress.com');
+            expect(cookie.medium).to.equal('referral');
+            expect(cookie.campaign).to.equal('(referral)');
+            expect(cookie.term).to.equal('/2015/03/19/st-paddys-day-drug-search-in-timmins');
+            expect(cookie.nooverride).to.equal(false);
+        });
+    });
 });

@@ -10,10 +10,13 @@
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
       ga('create', 'UA-54945026-2', 'auto');
-      ga('require', 'utmz');
+      ga('require', 'utmz', {
+          debug: true,
+          cookies: document.cookie
+    });
 
       ga('send', 'pageview');
-      ga('utmz:runTaggedCampaignBehaviour');
+      ga('utmz:runDefaultBehaviour');
     </script>
       <script async src="build/utmz.js"></script>
 </head>

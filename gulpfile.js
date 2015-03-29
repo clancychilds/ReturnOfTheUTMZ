@@ -8,7 +8,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
 var DEST = 'build/';
-var SRC_JS = ['src/utmz-cookie.js', 'src/utmz.js'];
+var SRC_JS = ['src/*.js'];
 var TEST_JS = 'test/*.js';
 
 gulp.task('test', function() {
@@ -33,6 +33,19 @@ gulp.task('scripts', function() {
         .pipe(buffer())
         .pipe(uglify({mangle:true}))
         .pipe(gulp.dest(DEST));
+});
+
+gulp.task('scripts-nomin', function() {
+    
+    return browserify('./src/utmz.js')
+        .bundle()
+        .pipe(source('utmz.js'))
+        .pipe(gulp.dest(DEST));
+});
+
+// Rerun the task when a file changes
+gulp.task('watch', function() {
+  gulp.watch(SRC_JS, ['scripts-nomin']);
 });
 
 gulp.task('default', ['lint', 'scripts']);

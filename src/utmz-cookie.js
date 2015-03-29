@@ -1,3 +1,4 @@
+var url = require('url');
     /* Format utmz cookie string
   Based on information provided at
   http://blog.vkistudios.com/index.cfm/2010/8/31/GA-Basics-The-Structure-of-Cookie-Values
@@ -101,7 +102,7 @@
                     this.term = value;
                     break;
                 case 'utm_nooverride':
-                    if (value == 1) {
+                    if (value == '1' || value == 1) {
                         this.nooverride = true;
                     } else {
                         this.nooverride = false;
@@ -139,6 +140,28 @@
         cookieValues.push("expires=" + this.expirationDateValue());
         var cookieString = cookieValues.join("; ");
         return cookieString;
+    };
+
+    UTMZCookie.prototype.equivalent = function(other) {
+        return (this.source == other.source && this.medium == other.medium &&
+                this.campaign == other.campaign && this.term == other.term &&
+                this.gclid == other.gclid);
+    };
+
+    UTMZCookie.prototype.loadAsDirect = function(referrerString) {
+        this.source = '(direct)';
+        this.medium = '(none)';
+        this.campaign = '(direct)';
+        this.isLoaded = true;
+    };
+    
+    UTMZCookie.prototype.loadFromReferrerString = function(referrerString) {
+        var referrer = url.parse(referrerString);
+        this.source = referrer.hostname.replace(/^www\./,'');
+        this.term = referrer.path;
+        this.medium = 'referral';
+        this.campaign = '(referral)';
+        this.isLoaded = true;
     };
 
     UTMZCookie.prototype.debugMessage = function(message) {
