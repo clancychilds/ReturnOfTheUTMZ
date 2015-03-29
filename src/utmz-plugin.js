@@ -12,7 +12,7 @@ function BringBackTheUTMZCookie(tracker, config) {
 
 BringBackTheUTMZCookie.prototype.runDefaultBehaviour = function() {
     // Is this a new domain?
-    var currentUrl = document.location.toString()
+    var currentUrl = document.location.toString();
     if (this.existingCookie && this.existingCookie.isLoaded && this.isSameDomain(document.referrer, currentUrl)) {
         return true;
     }
@@ -78,7 +78,7 @@ BringBackTheUTMZCookie.prototype.setOrUpdate = function(newCookie) {
 
 BringBackTheUTMZCookie.prototype.runTaggedCampaignBehaviour = function() {
     // Are there campaign tags in the URL?
-    var currentUrl = document.location.toString()
+    var currentUrl = document.location.toString();
     if (!this.hasCampaignTags(currentUrl)) {
         return false;
     }
