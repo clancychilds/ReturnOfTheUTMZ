@@ -14,21 +14,24 @@ BringBackTheUTMZCookie.prototype.runDefaultBehaviour = function() {
     // Is this a new domain?
     var currentUrl = document.location.toString()
     if (this.isSameDomain(document.referrer, currentUrl)) {
-        return false;
+        return true;
     }
     
     if (this.runTaggedCampaignBehaviour()) { return true; }
     else if (this.runReferralBehaviour()) { return true; }
-    else if (this.existingCookie && this.existingCookie.isLoaded) { return false; }
-    else { this.runDirectBehaviour() }
+    else if (this.existingCookie && this.existingCookie.isLoaded) { return true; }
+    else { 
+        this.runDirectBehaviour();
+        return true;
+     }
 };
 
 BringBackTheUTMZCookie.prototype.loadExistingCookie = function (cookies) {
     // Is there any existing cookie? If so, get it.
     var existingCookie = new UTMZCookie({});
     if (cookies.indexOf("__utmz=") > -1) {
-        var cookieString = cookies.match(/__utmz=[^;]*;/)[0];
-        existingCookie.loadFromCookieString(cookieString.substring(7, cookieString.length-1));
+    var cookieString = cookies.match(/__utmz=[^;]*/)[0];
+        existingCookie.loadFromCookieString(cookieString.substring(7, cookieString.length));
         this.debugMessage(cookieString);
     }
     return existingCookie;
