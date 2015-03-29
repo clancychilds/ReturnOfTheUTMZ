@@ -13,7 +13,7 @@ function BringBackTheUTMZCookie(tracker, config) {
 BringBackTheUTMZCookie.prototype.runDefaultBehaviour = function() {
     // Is this a new domain?
     var currentUrl = document.location.toString()
-    if (this.isSameDomain(document.referrer, currentUrl)) {
+    if (this.existingCookie && this.existingCookie.isLoaded && this.isSameDomain(document.referrer, currentUrl)) {
         return true;
     }
     
@@ -40,7 +40,7 @@ BringBackTheUTMZCookie.prototype.loadExistingCookie = function (cookies) {
 BringBackTheUTMZCookie.prototype.runDirectBehaviour = function() {
     var directCookie = new UTMZCookie({});
     directCookie.loadAsDirect();
-    this.setOrUpdate(directCookie);
+    return this.setOrUpdate(directCookie);
 };
 
 BringBackTheUTMZCookie.prototype.runReferralBehaviour = function() {
@@ -55,7 +55,7 @@ BringBackTheUTMZCookie.prototype.runReferralBehaviour = function() {
     // Otherwise, set as a referal
     var referrerCookie = new UTMZCookie({});
     referrerCookie.loadFromReferrerString(document.referrer);
-    this.setOrUpdate(referrerCookie);
+    return this.setOrUpdate(referrerCookie);
 };
 
 BringBackTheUTMZCookie.prototype.setOrUpdate = function(newCookie) {
