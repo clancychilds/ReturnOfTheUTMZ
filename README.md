@@ -11,4 +11,11 @@ Javascript plugin for Google Analytics analytics.js to recreate the functionalit
 
 That *should* be it. However, this is still in development.
 
+## Known Bugs and Deficiencies
+There are many. They will be tracked under Issues on github.
+PLEASE feel free to contribute!
+
+## Versions
+### 0.0.1
+Initial alpha. Supports utm_ tags and general referer parsing and cookie checking, but has a ton of TODOs. It will probably work for the most general cases (e.g. no tricky cookie settings) and doesn't capture timestamps. I'm not super happy with all of the hacked-together decisions to get this released, but at least it is a starting point to improve from.
 
