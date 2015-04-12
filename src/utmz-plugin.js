@@ -3,7 +3,10 @@ var url = require('url');
 
 function BringBackTheUTMZCookie(tracker, config) {
     this.tracker = tracker || [];
+    this.location = config.location
     this.debug = config.debug || false;
+    this.cookiePath = config.cookiePath || '/';
+    this.cookieDomain = config.cookieDomain || (this.location && ('.' + this.location.hostname.replace(/^www./,'')));
     this.debugMessage('loaded');
     if(config.cookies) {
         this.existingCookie = this.loadExistingCookie(config.cookies);
@@ -28,7 +31,7 @@ BringBackTheUTMZCookie.prototype.runDefaultBehaviour = function() {
 
 BringBackTheUTMZCookie.prototype.loadExistingCookie = function (cookies) {
     // Is there any existing cookie? If so, get it.
-    var existingCookie = new UTMZCookie({});
+    var existingCookie = new UTMZCookie({path:this.cookiePath, domain:this.cookieDomain});
     if (cookies.indexOf("__utmz=") > -1) {
     var cookieString = cookies.match(/__utmz=[^;]*/)[0];
         existingCookie.loadFromCookieString(cookieString.substring(7, cookieString.length));
@@ -38,7 +41,7 @@ BringBackTheUTMZCookie.prototype.loadExistingCookie = function (cookies) {
 };
 
 BringBackTheUTMZCookie.prototype.runDirectBehaviour = function() {
-    var directCookie = new UTMZCookie({});
+    var directCookie = new UTMZCookie({path:this.cookiePath, domain:this.cookieDomain});
     directCookie.loadAsDirect();
     return this.setOrUpdate(directCookie);
 };
@@ -53,7 +56,7 @@ BringBackTheUTMZCookie.prototype.runReferralBehaviour = function() {
     //TODO: parse special referrers correctly.
     
     // Otherwise, set as a referal
-    var referrerCookie = new UTMZCookie({});
+    var referrerCookie = new UTMZCookie({path:this.cookiePath, domain:this.cookieDomain});
     referrerCookie.loadFromReferrerString(document.referrer);
     return this.setOrUpdate(referrerCookie);
 };
@@ -83,7 +86,7 @@ BringBackTheUTMZCookie.prototype.runTaggedCampaignBehaviour = function() {
         return false;
     }
     // Load from the URL String
-    var urlCookie = new UTMZCookie({});
+    var urlCookie = new UTMZCookie({path:this.cookiePath, domain:this.cookieDomain});
     urlCookie.loadFromURLString(currentUrl);
     // If existing cookie, and URL string is nooverride, refresh expiry of existing
     return this.setOrUpdate(urlCookie);

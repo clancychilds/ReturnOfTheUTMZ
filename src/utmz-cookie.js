@@ -138,6 +138,8 @@ var url = require('url');
         var cookieValues = [];
         cookieValues.push("__utmz=" + this.cookieValue());
         cookieValues.push("expires=" + this.expirationDateValue());
+        if(this.domain) {cookieValues.push("domain=" + this.domain);}
+        if(this.path) {cookieValues.push("path=" + this.path);}
         var cookieString = cookieValues.join("; ");
         return cookieString;
     };
