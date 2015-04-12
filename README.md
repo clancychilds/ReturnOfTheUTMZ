@@ -4,17 +4,25 @@ Javascript plugin for Google Analytics analytics.js to recreate the functionalit
 ## Installation
 There are two ways to use this: As a Universal Analytics Tracking Plugin or as a standalone script.
 
-### Universal Analytics Plugin
+### Universal Analytics Plugin - Self-hosted
 1. Download the latest version of the GA plugin from [compiled/latest/utmz_ga.min.js](compiled/latest/utmz_ga.min.js)
 2. Host it on your web server.
 3. Add a `<script async src="/PATH_TO_JS/utmz_ga.min.js"></script>` on each page
 4. Wherever your Google Analytics tag is, add `ga('require', 'utmz', { cookies: document.cookie });` directly after the `ga('create', ...)` command.
 5. Add `ga('utmz:runDefaultBehaviour');` right after the `ga('send', ...)` command.
 
-### Standalone Script
+### Universal Analytics Plugin - Rawgit-hosted
+1. Add a `<script async src="https://cdn.rawgit.com/clancychilds/ReturnOfTheUTMZ/master/compiled/latest/utmz_ga.min.js"></script>` on each page
+4. Wherever your Google Analytics tag is, add `ga('require', 'utmz', { cookies: document.cookie });` directly after the `ga('create', ...)` command.
+5. Add `ga('utmz:runDefaultBehaviour');` right after the `ga('send', ...)` command.
+
+### Standalone Script - Self-hosted
 1. Download the latest version of the standalone script from [compiled/latest/utmz.min.js](compiled/latest/utmz.min.js)
 2. Host it on your web server.
-3. Add a `<script async src="/PATH_TO_JS/utmz.min.js"></script>` on each page (or via a tag manager)
+3. Add `<script async src="/PATH_TO_JS/utmz.min.js"></script>` on each page (or via a tag manager)
+
+### Standalone Script - Rawgit-hosted
+1. Add `<script async src="https://cdn.rawgit.com/clancychilds/ReturnOfTheUTMZ/master/compiled/latest/utmz.min.js"></script>` on each page (or via a tag manager)
 
 That *should* be it. However, this is still in development.
 
@@ -27,3 +35,5 @@ PLEASE feel free to contribute!
 Initial alpha. Supports utm_ tags and general referer parsing and cookie checking, but has a ton of TODOs. It will probably work for the most general cases (e.g. no tricky cookie settings) and doesn't capture timestamps. I'm not super happy with all of the hacked-together decisions to get this released, but at least it is a starting point to improve from.
 ### 0.0.2
 Added the ability to run this as a non-GA tracking plugin. I had to do this because I realized that there are cases where people want the cookie but don't want GA and also that when using Google Tag Manager, it is not possible to specify Universal Analytics plugin requirements.
+### 0.0.3
+Make it so that the cookies are, by default, set at the '/' path and on the primary domain.
