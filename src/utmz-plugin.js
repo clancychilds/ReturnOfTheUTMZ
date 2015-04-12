@@ -2,7 +2,7 @@ var UTMZCookie = require('./utmz-cookie.js');
 var url = require('url');
 
 function BringBackTheUTMZCookie(tracker, config) {
-    this.tracker = tracker;
+    this.tracker = tracker || [];
     this.debug = config.debug || false;
     this.debugMessage('loaded');
     if(config.cookies) {

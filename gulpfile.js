@@ -23,7 +23,27 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('scripts', function() {
+gulp.task('ga_scripts', function() {
+    
+    return browserify('./src/utmz_ga.js')
+        .bundle()
+        .pipe(source('utmz_ga.js'))
+        .pipe(gulp.dest(DEST))
+        .pipe(rename('utmz_ga.min.js'))
+        .pipe(buffer())
+        .pipe(uglify({mangle:true}))
+        .pipe(gulp.dest(DEST));
+});
+
+gulp.task('ga_scripts-nomin', function() {
+    
+    return browserify('./src/utmz_ga.js')
+        .bundle()
+        .pipe(source('utmz_ga.js'))
+        .pipe(gulp.dest(DEST));
+});
+
+gulp.task('non_ga_scripts', function() {
     
     return browserify('./src/utmz.js')
         .bundle()
@@ -35,7 +55,7 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest(DEST));
 });
 
-gulp.task('scripts-nomin', function() {
+gulp.task('non_ga_scripts-nomin', function() {
     
     return browserify('./src/utmz.js')
         .bundle()
@@ -47,5 +67,8 @@ gulp.task('scripts-nomin', function() {
 gulp.task('watch', function() {
   gulp.watch(SRC_JS, ['scripts-nomin']);
 });
+
+gulp.task('scripts-nomin', ['ga_scripts-nomin','non_ga_scripts-nomin']);
+gulp.task('scripts', ['ga_scripts','non_ga_scripts']);
 
 gulp.task('default', ['lint', 'scripts']);
