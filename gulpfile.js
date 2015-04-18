@@ -8,7 +8,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
 var DEST = 'build/';
-var SRC_JS = ['src/*.js'];
+var SRC_JS = 'src/*.js';
 var TEST_JS = 'test/*.js';
 
 gulp.task('test', function() {
@@ -17,7 +17,7 @@ gulp.task('test', function() {
 });
 
 gulp.task('lint', function() {
-    return gulp.src(SRC_JS)
+    return gulp.src([SRC_JS, TEST_JS])
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(jshint.reporter('fail'));

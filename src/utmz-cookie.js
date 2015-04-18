@@ -69,10 +69,10 @@ var url = require('url');
                 case 'utmctr':
                     this.term = keyValue[1];
                     break;
-                case 'utmcct'                    
+                case 'utmcct':                    
                     this.content = keyValue[1];
                     break;
-                case 'utmcid'                    
+                case 'utmcid':                    
                     this.tableid = keyValue[1];
                     break;                     
             }
@@ -111,11 +111,11 @@ var url = require('url');
                 case 'utm_term':
                     this.term = value;
                     break;
-                case 'utm_content'                    
-                    this.content = keyValue[1];
+                case 'utm_content':                    
+                    this.content = value;
                     break;
-                case 'utm_id'                    
-                    this.tableid = keyValue[1];
+                case 'utm_id':                    
+                    this.tableid = value;
                     break;                     
                 case 'utm_nooverride':
                     if (value == '1' || value == 1) {
@@ -166,7 +166,8 @@ var url = require('url');
     UTMZCookie.prototype.equivalent = function(other) {
         return (this.source == other.source && this.medium == other.medium &&
                 this.campaign == other.campaign && this.term == other.term &&
-                this.gclid == other.gclid && this.content ==  other.content && this.tableid == other.tableid);
+                this.gclid == other.gclid && this.content ==  other.content &&
+                this.tableid == other.tableid);
     };
 
     UTMZCookie.prototype.loadAsDirect = function(referrerString) {
