@@ -3,7 +3,7 @@ var url = require('url');
 
 function BringBackTheUTMZCookie(tracker, config) {
     this.tracker = tracker || [];
-    this.location = config.location
+    this.location = config.location;
     this.debug = config.debug || false;
     this.cookiePath = config.cookiePath || '/';
     this.cookieDomain = config.cookieDomain || (this.location && ('.' + this.location.hostname.replace(/^www./,'')));
@@ -102,7 +102,7 @@ BringBackTheUTMZCookie.prototype.isSameDomain = function (url1, url2) {
 
 BringBackTheUTMZCookie.prototype.hasCampaignTags = function (currentUrl) {
         var query = url.parse(currentUrl).query;
-        if (query == undefined) return false;
+        if (!query) return false;
         var medium = query.indexOf('utm_medium=') > -1;
         var source = query.indexOf('utm_source=') > -1;
         var campaign = query.indexOf('utm_campaign=') > -1;
