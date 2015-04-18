@@ -39,7 +39,20 @@ var url = require('url');
         this.expirationDays = config.expirationDays || 180;
         this.isLoaded = false;
     }
-
+   
+    // DomainHash Generator
+    UTMZCookie.prototype.generateDomainHash =  function generateDomainHash(d)
+    {
+        if (!d || d=="") return 1;
+        var h=0,g=0;
+        for (var i=d.length-1;i>=0;i--){
+            var c=parseInt(d.charCodeAt(i));
+            h=((h << 6) & 0xfffffff) + c + (c << 14);
+            if ((g=h & 0xfe00000)!=0) h=(h ^ (g >> 21));
+        }
+        return h;
+    }
+    
     UTMZCookie.prototype.loadFromCookieString = function(cookieString) {
         //this.debugMessage('loading cookie from string: ' + cookieString);
         var periodSplit = cookieString.split('.');
