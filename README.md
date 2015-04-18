@@ -30,6 +30,10 @@ That *should* be it. However, this is still in development.
 There are many. They will be tracked under Issues on github.
 PLEASE feel free to contribute!
 
+## Contributing
+Please fork and submit pull requests. Ideally log and take an Issue in github.
+Please make sure that `gulp lint` and `gulp test` don't send errors and please add unit tests where possible.
+
 ## Versions
 ### 0.0.1
 Initial alpha. Supports utm_ tags and general referer parsing and cookie checking, but has a ton of TODOs. It will probably work for the most general cases (e.g. no tricky cookie settings) and doesn't capture timestamps. I'm not super happy with all of the hacked-together decisions to get this released, but at least it is a starting point to improve from.
@@ -37,3 +41,5 @@ Initial alpha. Supports utm_ tags and general referer parsing and cookie checkin
 Added the ability to run this as a non-GA tracking plugin. I had to do this because I realized that there are cases where people want the cookie but don't want GA and also that when using Google Tag Manager, it is not possible to specify Universal Analytics plugin requirements.
 ### 0.0.3
 Make it so that the cookies are, by default, set at the '/' path and on the primary domain.
+### 0.0.4
+Added support for `utm_content` and `utm_id`. Thanks to [thyngster](https://github.com/thyngster)

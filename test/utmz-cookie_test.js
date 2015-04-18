@@ -27,6 +27,25 @@ describe('UTMZCookie', function(){
             expect(cookie.nooverride).to.equal(false);
         });
         
+        it("should parse 'http://www.test.com/test_page?utm_source=bing&utm_medium=cpc&utm_content=test_content&utm_campaign=test_campaign'", function(){
+            var cookie = new UTMZCookie({});
+            var url_string = 'http://www.test.com/test_page?utm_source=bing&utm_medium=cpc&utm_content=test_content&utm_campaign=test_campaign';
+            cookie.loadFromURLString(url_string);
+            expect(cookie.source).to.equal("bing");
+            expect(cookie.medium).to.equal("cpc");
+            expect(cookie.campaign).to.equal("test_campaign");
+            expect(cookie.content).to.equal("test_content");
+            expect(cookie.nooverride).to.equal(false);
+        });
+        
+        it("should parse 'http://www.test.com/test_page?utm_id=99832948'", function(){
+            var cookie = new UTMZCookie({});
+            var url_string = 'http://www.test.com/test_page?utm_id=99832948';
+            cookie.loadFromURLString(url_string);
+            expect(cookie.tableid).to.equal("99832948");
+            expect(cookie.nooverride).to.equal(false);
+        });
+        
         it("should parse 'http://www.test.com/test_page?gclid=1039393939'", function(){
             var cookie = new UTMZCookie({});
             var url_string = 'http://www.test.com/test_page?gclid=1039393939';
@@ -123,6 +142,35 @@ describe('UTMZCookie', function(){
             expect(cookie1.equivalent(cookie2)).to.equal(true);
         });
         
+        it("should check utm_id equivalency", function() {
+            var cookie1 = new UTMZCookie({tableid: '8382243'});
+            var cookie2 = new UTMZCookie({tableid: '8382243'});
+            expect(cookie1.equivalent(cookie2)).to.equal(true);
+            cookie1 = new UTMZCookie({tableid: '8382243'});
+            cookie2 = new UTMZCookie({tableid: '8382999'});
+            expect(cookie1.equivalent(cookie2)).to.equal(false);
+        });
+        
+        it("should check utm_content equivalency", function() {
+            var cookie1 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpc',
+                                         content: 'test_content',
+                                         campaign: 'test_campaign'});
+            var cookie2 = new UTMZCookie({source: 'bing',
+                                         medium: 'cpc',
+                                         content: 'test_content',
+                                         campaign: 'test_campaign'});
+            expect(cookie1.equivalent(cookie2)).to.equal(true);
+            cookie1 = new UTMZCookie({source: 'bing',
+                             medium: 'cpc',
+                             content: 'test_content',
+                             campaign: 'test_campaign'});
+            cookie2 = new UTMZCookie({source: 'bing',
+                             medium: 'cpc',
+                             campaign: 'test_campaign'});
+            expect(cookie1.equivalent(cookie2)).to.equal(false);
+        });
+        
         it("should return true if equivalent, but missing fields", function() {
             var cookie1 = new UTMZCookie({source: 'bing',
                                          medium: 'cpc',
@@ -132,6 +180,7 @@ describe('UTMZCookie', function(){
                                          campaign: 'test_campaign'});
             expect(cookie1.equivalent(cookie2)).to.equal(true);
         });
+        
         
         it("should return false if the cookies are NOT equivalent", function() {
             var cookie1 = new UTMZCookie({source: 'bing',

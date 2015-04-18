@@ -1,6 +1,6 @@
 {
   "name": "utmz",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Google Analytics tracking plugin to recreate campaign tracking cookie (__utmz)",
   "main": "utmz.js",
   "dependencies": {
